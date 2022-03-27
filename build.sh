@@ -12,7 +12,6 @@
 ## -r run only without input file
 
 
-
 ## DEFINE
 sourcedir="."
 inputdir="./inputs"
@@ -77,7 +76,17 @@ sourcefile="$sourcedir/$sourcename.$fileextension"
 inputfile="$inputdir/$sourcename-input.txt"
 runfile="$runfiledir/$sourcename.out"
 
+if [ "$isbuild" = true ] || [ "$isrun" = true ]; then
+    if [ ! -d "$runfiledir" ] 
+    then
+        echo "Directory $runfiledir DOES NOT exist." 
+        echo "Creating $runfiledir." 
+        mkdir "$runfiledir" 
+    fi
+fi
+
 if [ "$isbuild" = true ] ; then
+
     echo "Building source: $sourcefile";
     echo "$compilecommand $sourcefile -o $runfile"
     $compilecommand $sourcefile -o $runfile
