@@ -2,17 +2,19 @@
 #include <stdlib.h>
 
 #define MAXLEN 100 /* maximum array size */
+/* originally designed with malloc, hense use of pointer arithmetic in get_arr..() */
 
 void print_ptr_array(int *arr, int n)
 {
 
-    printf("array [%d]: ", n);
+    printf("elems [%d], array length: ", n);
 
     int i;
     int *arrp = arr;
 
     printf("[");
-    for (i = 0; i < n; i++){
+    for (i = 0; i < n; i++)
+    {
         printf("%d,", *arrp);
         arrp++;
     }
@@ -36,7 +38,7 @@ int substr_to_int(char *str, int n)
         strp++;
         i++;
     }
-    while(i < n && *strp != '\0')
+    while (i < n && *strp != '\0')
     {
         ret = (ret * 10) + (*strp - '0');
         strp++, i++;
@@ -46,7 +48,8 @@ int substr_to_int(char *str, int n)
 }
 
 /* return a count of the space separated elements in a str*/
-int elems_count(char *cstr){
+int elems_count(char *cstr)
+{
     char *strp = cstr;
     char *debug;
     int num_elems = 0;
@@ -62,19 +65,18 @@ int elems_count(char *cstr){
         while (*strp != ' ' && *strp != '\0')
             strp++;
 
-        /* increment element count */
         num_elems++;
 
         /* remove whitespace */
-        while (*strp == ' ' && *strp != '\0')
+        while ((*strp == ' ' || *strp == '\n') && *strp != '\0')
             strp++;
     }
 
     return num_elems;
 }
 
-int * get_arr_from_cbuffer(char *cstr)
-{  
+int *get_arr_from_cbuffer(char *cstr, size_t elems)
+{
     int numints = 0;
     int i = 0, n = 0, m = 0;
     int tmp;
@@ -82,9 +84,10 @@ int * get_arr_from_cbuffer(char *cstr)
     char *strp = cstr;
     char *subp = cstr;
     int *tmpint;
-    tmpint = (int *)malloc(sizeof(int) * elems_count(strp));
+    // tmpint = (int *)malloc(sizeof(int) * elems_count(strp));
+    tmpint = calloc(elems, sizeof(int));
     int *ret;
-    ret = (int *)malloc(sizeof(int) * elems_count(strp));
+    // ret = (int *)malloc(sizeof(int) * elems_count(strp));
     ret = tmpint;
 
     /* remove leading whitespace */
@@ -95,11 +98,11 @@ int * get_arr_from_cbuffer(char *cstr)
     while (*strp != '\0')
     {
         /* collect indicies for substrs */
-        while (*strp != ' ' && *strp != '\n'&& *strp != '\0')
+        while (*strp != ' ' && *strp != '\n' && *strp != '\0')
             i++, strp++;
 
         /* add element to int array */
-        tmp = substr_to_int(subp, i-m);
+        tmp = substr_to_int(subp, i - m);
         *tmpint = tmp;
         tmpint++;
         subp = strp;
@@ -108,7 +111,7 @@ int * get_arr_from_cbuffer(char *cstr)
         n++;
 
         /* remove whitespace */
-        while ((*strp == ' ' || *strp == '\n') && *strp != '\0' )
+        while ((*strp == ' ' || *strp == '\n') && *strp != '\0')
             strp++, subp++, n++, i++, m++;
     }
 
@@ -122,7 +125,8 @@ char *getbufline(size_t cbuffsize)
     return cbuffret;
 }
 
-void unit_tests(){
+void unit_tests()
+{
 
     char *ctestA = "-123";
     char *ctestB = "234";
@@ -148,16 +152,20 @@ int main()
     size_t cbuffsize = (size_t)MAXLEN;
     char *cbuffer = getbufline(cbuffsize);
     size_t arrlen = elems_count(cbuffer);
-    int * arr;
-    arr = (int *)malloc(arrlen * sizeof(int));
-    arr = get_arr_from_cbuffer(cbuffer);
+    int *arr;
+    // arr = (int *)malloc(arrlen * sizeof(int));
+    // arr = calloc(arrlen, sizeof(int));
+    arr = get_arr_from_cbuffer(cbuffer, arrlen);
 
     // debug output:
     printf("line: %s\n", cbuffer);
     printf("array size: %d\n", elems_count(cbuffer));
+    printf("arr[i], i = %d: %d\n", (int)arrlen - 1, arr[(int)arrlen - 1]);
     print_ptr_array(arr, arrlen);
-    
+
+    free(arr); /* freeing memory from calloc in get_arr_from_cbuffer */
     // unit tests:
     // unit_tests();
 
+    return 0;
 }
