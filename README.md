@@ -3,6 +3,7 @@
 ## Compile and Run with Input File
 ```bash
 sh build.sh -c -x slow_sort
+sh build.sh -c -x quick_sort
 sh build.sh -c -x get_array
 sh build.sh -c -x linked_list
 
@@ -13,7 +14,8 @@ sh build.sh -c -x linked_list
 ## ! use -c to run all of the below with C instead of C++
 ## e.g. sh build.sh -c -x <filename>
 
-## -x build and then run with an input file
+## -x build and then run with an input file 
+    ### (you can also default use -x and just ignore the input)
 ## -e build and then run without an input file
 ## -b build only
 ## -i run only with input file
