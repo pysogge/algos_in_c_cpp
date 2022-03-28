@@ -3,6 +3,8 @@
 ## Compile and Run with Input File
 ```bash
 sh build.sh -c -x slow_sort
+sh build.sh -c -x get_array
+sh build.sh -c -x linked_list
 
 # Build and Run CPP Files (With or Without Input Files)
 
@@ -41,3 +43,4 @@ TODO:
 - Lists
 - Search
 - Multi-File
+- Algorithms to Use Get Array input
