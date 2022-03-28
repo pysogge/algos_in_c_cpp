@@ -35,3 +35,9 @@ sh makenew.sh -c -x slow_sort
 ## -r remove old files (.cpp, .out, .txt) only
 ## -x remove and make new files (.cpp, .out, .txt)
 ```
+
+TODO:
+- Sorts
+- Lists
+- Search
+- Multi-File
