@@ -24,7 +24,7 @@ sh build.sh -c -x linked_list
 
 ## Make new files and input files
 ```bash
-sh makenew.sh -c -x slow_sort
+sh makenew.sh -c -x new_sort
 
 # Create New Source Files
 
@@ -38,6 +38,24 @@ sh makenew.sh -c -x slow_sort
 ## -n make  (touch) new source and input files only (.cpp, .txt)
 ## -r remove old files (.cpp, .out, .txt) only
 ## -x remove and make new files (.cpp, .out, .txt)
+```
+
+## Dump Assembly / Object Code
+```bash
+## Run this after building the program
+otool -tv ./exec/slow_sort.out
+
+## Run this to dump it into a file
+mkdir -p asm && otool -tv ./exec/slow_sort.out > ./asm/slow_sort.txt
+```
+
+## Check File Size
+```bash
+## Run this after building the program
+ls -sh ./exec/slow_sort.out
+
+## Run this to get the size of a dir
+du -sh ./exec/
 ```
 
 TODO:
